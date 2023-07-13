@@ -24,4 +24,9 @@ dependencies {
 
 test {
     useTestNG()
+
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        showStandardStreams = true
+    }
 }
