@@ -3,9 +3,11 @@ package autotests.clients;
 import autotests.EndpointConfig;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.http.client.HttpClient;
+import com.consol.citrus.message.MessageType;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -26,6 +28,16 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
                 .get("/api/duck/action/swim")
                 .queryParam("id", id)
                 .message().contentType(MediaType.APPLICATION_JSON_VALUE));
+    }
+
+    @Description("Валидация полученного ответа")
+    public void validateResponse(TestCaseRunner runner, String response) {
+        runner.$(http()
+                .client(yellowDuckService)
+                .receive()
+                .response(HttpStatus.NOT_FOUND)
+                .message().type(MessageType.JSON)
+                .body(response));
     }
 }
 
