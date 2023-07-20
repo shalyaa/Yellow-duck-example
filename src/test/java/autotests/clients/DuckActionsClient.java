@@ -20,14 +20,29 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     @Autowired
     protected HttpClient yellowDuckService;
 
-    @Description("Эндпоинт, засвляющий уточку плыть")
+    @Description("Эндпоинт, заставляющий уточку плыть")
     public void duckSwim(TestCaseRunner runner, String id) {
         runner.$(http()
                 .client(yellowDuckService)
                 .send()
                 .get("/api/duck/action/swim")
-                .queryParam("id", id)
-                .message().contentType(MediaType.APPLICATION_JSON_VALUE));
+                .queryParam("id", id));
+    }
+
+    @Description("Эндпоинт для создания уточки")
+    public void duckCreate(TestCaseRunner runner, String color, String height, String material, String sound, String wingsState) {
+        runner.$(http()
+                .client(yellowDuckService)
+                .send()
+                .post("/api/duck/create")
+                .message().contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body("{\n" +
+                        "  \"color\": \"" + color + "\",\n" +
+                        "  \"height\": " + height + ",\n" +
+                        "  \"material\": \"" + material + "\",\n" +
+                        "  \"sound\": \"" + sound + "\",\n" +
+                        "  \"wingsState\": \"" + wingsState + "\"\n" +
+                        "}"));
     }
 
     @Description("Валидация полученного ответа")
@@ -35,7 +50,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         runner.$(http()
                 .client(yellowDuckService)
                 .receive()
-                .response(HttpStatus.NOT_FOUND)
+                .response(HttpStatus.OK)
                 .message().type(MessageType.JSON)
                 .body(response));
     }
