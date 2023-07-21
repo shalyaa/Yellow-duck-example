@@ -1,7 +1,8 @@
 {
   "color": "yellow",
-  "height": 10.0,
-  "material": "plastic",
-  "sound": "crya-crya",
+  "height": 0.05,
+  "id": "@ignore@",
+  "material": "rubber",
+  "sound": "quack",
   "wingsState": "ACTIVE"
 }
