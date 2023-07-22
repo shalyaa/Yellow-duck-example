@@ -51,29 +51,29 @@ public class BaseTest extends TestNGCitrusSpringSupport {
                 .body(payload));
     }
 
-    protected void validateResponse(TestCaseRunner runner, HttpClient URL, HttpStatus status, String expectedPayload) {
+    protected void validateResponse(TestCaseRunner runner, HttpClient URL, HttpStatus status, String expectedResponse) {
         runner.$(http().client(URL)
                 .receive()
                 .response(status)
                 .message().type(MessageType.JSON)
-                .body(new ClassPathResource(expectedPayload)));
+                .body(new ClassPathResource(expectedResponse)));
     }
 
-    protected void validateResponse(TestCaseRunner runner, HttpClient URL, HttpStatus status, Object expectedPayload) {
+    protected void validateResponse(TestCaseRunner runner, HttpClient URL, HttpStatus status, Object expectedResponse) {
         runner.$(http().client(URL)
                 .receive()
                 .response(status)
                 .message().type(MessageType.JSON)
-                .body(new ObjectMappingPayloadBuilder(expectedPayload, new ObjectMapper())));
+                .body(new ObjectMappingPayloadBuilder(expectedResponse, new ObjectMapper())));
     }
 
-    protected void validateResponse(TestCaseRunner runner, String response) {
+    protected void validateResponse(TestCaseRunner runner, String expectedResponse) {
         runner.$(http()
                 .client(yellowDuckService)
                 .receive()
                 .response(HttpStatus.OK)
                 .message().type(MessageType.JSON)
-                .body(response));
+                .body(expectedResponse));
     }
 
 }
