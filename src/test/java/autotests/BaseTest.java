@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ContextConfiguration;
 
+import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 @ContextConfiguration(classes = {EndpointConfig.class})
@@ -19,6 +21,14 @@ public class BaseTest extends TestNGCitrusSpringSupport {
 
     @Autowired
     protected HttpClient yellowDuckService;
+
+    @Autowired
+    protected SingleConnectionDataSource db;
+
+    protected void databaseUpdate(TestCaseRunner runner, String sql) {
+        runner.$(sql(db)
+                .statement(sql));
+    }
 
     protected void sendGetRequest(TestCaseRunner runner, HttpClient URL, String path, String queName, String queValue) {
         runner.$(http()
