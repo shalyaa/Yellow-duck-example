@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
+import static com.consol.citrus.validation.DelegatingPayloadVariableExtractor.Builder.fromBody;
 
 @ContextConfiguration(classes = {EndpointConfig.class})
 public class BaseTest extends TestNGCitrusSpringSupport {
@@ -81,9 +82,18 @@ public class BaseTest extends TestNGCitrusSpringSupport {
         runner.$(http()
                 .client(yellowDuckService)
                 .receive()
-                .response(HttpStatus.OK)
+                .response(HttpStatus.NOT_FOUND)
                 .message().type(MessageType.JSON)
                 .body(expectedResponse));
+    }
+
+    protected void extractPath(TestCaseRunner runner, String path, String value) {
+        runner.$(http().client(yellowDuckService)
+                .receive()
+                .response()
+                .message().type(MessageType.JSON)
+                .extract(fromBody().expression(path, value))
+        );
     }
 
 }
