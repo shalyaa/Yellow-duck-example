@@ -3,7 +3,6 @@ package autotests.clients;
 import autotests.BaseTest;
 import com.consol.citrus.TestCaseRunner;
 import io.qameta.allure.Step;
-import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
 
 import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
